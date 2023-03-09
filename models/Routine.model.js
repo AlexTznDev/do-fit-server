@@ -1,6 +1,6 @@
-const { Schema, model } = require("mongoose");
+const mongoose = require("mongoose");
 
-const routineSchema = new Schema({
+const routineSchema = new mongoose.Schema({
   name: String,
   exercises: [{
       type: mongoose.Schema.Types.ObjectId,
@@ -22,5 +22,5 @@ const routineSchema = new Schema({
   },
 });
 
-const Routine = model("Routine", routineSchema);
+const Routine = mongoose.model("Routine", routineSchema);
 module.exports = Routine;

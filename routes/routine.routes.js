@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const Routine = require("../models/Routine.model.js");
 
 //* routas de routina
 //GET "/" => renderizar a todas las routinas
@@ -9,8 +10,28 @@ res.json("todo funciona bien")
 })
 
 //POST "/" => crear las routinas
-router.post("/",(req, res, next)=>{
+router.post("/", async (req, res, next)=>{
 
+    const {name, owner, frequency, status} = req.body
+
+
+    try {
+        
+        const response = await Routine.create({
+            name,
+            owner,
+            frequency,
+            status,
+            exercise:[]
+            
+        })
+
+        res.json(response)
+    
+
+    } catch (error) {
+        next (error)
+    }
 
 })
 
