@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const { findByIdAndDelete, findById } = require("../models/Exercise.model.js");
 const Routine = require("../models/Routine.model.js");
+const User = require("../models/User.model.js")
 
 //* routas de routina
 //GET "/" => renderizar a todas las routinas
@@ -34,14 +35,13 @@ router.get("/:id", async(req, res, next) => {
 
 try {
     
-const responseExercisse = await Routine.findById(id).select({exercises: 1}).populate("exercises.exercisesId")
-const responseOwner = await Routine.findById(id).populate("User")
+const responseAll = await Routine.findById(id)
+.populate("exercises.exercisesId owner")
 
-
-res.json(responseOwner)
+res.json(responseAll)
 
 } catch (error) {
-    
+    next(error)
 }
 
 
