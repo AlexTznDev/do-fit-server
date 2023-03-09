@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const bcrypt = require("bcryptjs")
 const User = require("../models/User.model.js")
+const jwt = require("jsonwebtoken")
 
 
 //* routas de authentification
@@ -39,6 +40,49 @@ router.post("/signup", async (req, res, next) => {
 
 // POST "/auth/login" Validar las credenciales des usuario
 router.post("/login", async (req, res, next) => {
+
+
+    const {email, password} = req.body
+    console.log(req.body)
+
+    try {
+
+        //Verificar que el usuario exista en la BD
+    const foundUser = await User.findOne({email:email})
+    
+    if(!foundUser){
+        res.status(400).json({errorMessage: "Credenciales no validas"})
+        return;
+    }
+        //- validar si la contraseña es la correcta
+        
+    const isPasswordCorrect = await bcrypt.compare(password, foundUser.password )
+    if(!isPasswordCorrect){
+        res.status(400).json({errorMessage: "Credenciales no validas"})
+    }
+
+    res.json("Has iniciado sesion")
+    //payload => Contenido del token que identifica al usuario
+
+    
+    // const payload = {
+    //     _id: foundUser._id,
+    //     email: foundUser.email
+    //     //si tuviesemos roles, podrian ir
+    // }
+    // // generamos el token
+    // const authToken = jwt.sign(payload, process.env.TOKEN_SECRET, {
+    //     algorithm:"HS256",
+    //     expiresIn:"2d" // 2 dias
+    // })
+
+    // res.status(200).json({authToken:authToken})
+
+        
+    } catch (error) {
+        next(error)
+    }
+
 
 });
 
