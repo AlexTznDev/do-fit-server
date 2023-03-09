@@ -2,13 +2,17 @@ const mongoose = require("mongoose");
 
 const routineSchema = new mongoose.Schema({
   name: String,
+  
   exercises: [{
+    exercisesId :{
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Exercise",
+      ref: "Exercise"
+    },
       repeticion: Number,
       series: Number,
-      chronometro: Number
+      chronometro: Number,
     }],
+
 
   owner: {
     type: mongoose.Schema.Types.ObjectId,
