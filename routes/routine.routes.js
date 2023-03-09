@@ -41,7 +41,26 @@ router.get("/:id",(req, res, next)=>{
 })
 
 //PATCH "/:id" => edit las routinas por su id
-router.patch("/:id",(req, res, next)=>{
+router.patch("/:id", async (req, res, next)=>{
+
+    const {id} = req.params
+    const {exercises, series, repeticion, chronometro} = req.body
+
+    try {
+
+      const response = await Routine.findByIdAndUpdate(id, {
+
+        exercises,
+        series,
+        repeticion,
+        chronometro,
+
+      })  
+        
+    } catch (error) {
+        next(error)
+    }
+
 })
 
 //DELETE "/:id" => delete las routinas por su id
