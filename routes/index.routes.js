@@ -10,4 +10,7 @@ router.use("/routine", routineRoutes)
 const exerciseRoutes = require("./exercise.routes.js")
 router.use("/exercise", exerciseRoutes)
 
+const authRoutes = require("./auth.routes.js")
+router.use("/auth", authRoutes)
+
 module.exports = router;
