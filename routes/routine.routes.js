@@ -35,13 +35,13 @@ router.get("/:id", async(req, res, next) => {
 try {
     
 const responseExercisse = await Routine.findById(id).select({exercises: 1}).populate("exercises.exercisesId")
-const responseOwner = await Routine.findById(id).populate("User")
+const responseOwner = await Routine.findById(id).populate("owner")
 
 
 res.json(responseOwner)
 
 } catch (error) {
-    
+    next(error)
 }
 
 
