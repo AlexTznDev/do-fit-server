@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { findByIdAndDelete } = require("../models/Exercise.model.js");
+const { findByIdAndDelete, findById } = require("../models/Exercise.model.js");
 const Routine = require("../models/Routine.model.js");
 
 //* routas de routina
@@ -28,11 +28,23 @@ router.post("/", async (req, res, next) => {
 });
 
 //GET "/:id" => renderizar a detailles de la routina
-router.get("/:id", (req, res, next) => {
+router.get("/:id", async(req, res, next) => {
   //populate para sacar la informacion del exercissio al momento de renderizar + repeticion + series + chronometro
+    const {id} =   req.params
+
+try {
+    
+const responseExercisse = await Routine.findById(id).select({exercises: 1}).populate("exercises.exercisesId")
+const responseOwner = await Routine.findById(id).populate("User")
 
 
-  
+res.json(responseOwner)
+
+} catch (error) {
+    
+}
+
+
 });
 
 //PATCH "/:id" => edit las routinas por su id

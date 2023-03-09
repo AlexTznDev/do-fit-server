@@ -9,7 +9,6 @@ router.get("/", (req, res, next) => {
 
 //POST "/exercise" => crear exercissio
 router.post("/", async (req, res, next) => {
-  console.log(req.body);
   const { name, creador, category, calories, description, videoUrl } = req.body;
 
   try {
@@ -24,7 +23,6 @@ router.post("/", async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-
   res.json("the exercise was create");
 });
 
@@ -34,7 +32,7 @@ router.get("/:id", async (req, res, next) => {
 
   try {
     const response = await Exercise.findById(id);
-    console.log(response);
+
     res.json(response);
   } catch (error) {
     next(error);
@@ -54,23 +52,21 @@ router.patch("/:id", async (req, res, next) => {
       description,
       videoUrl,
     });
-    res.json("the edit it's OK")
+    res.json("the edit it's OK");
   } catch (error) {
     next(error);
   }
 });
 
 //DELETE "/:id" => delete el exercissio por su id
-router.delete("/:id",async (req, res, next) => {
-const {id} = req.params
-try {
-    await Exercise.findByIdAndDelete(id)
-    res.json("the exercise was delete")
-} catch (error) {
-    next(error)
-}
-
-
+router.delete("/:id", async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    await Exercise.findByIdAndDelete(id);
+    res.json("the exercise was delete");
+  } catch (error) {
+    next(error);
+  }
 });
 
 module.exports = router;
