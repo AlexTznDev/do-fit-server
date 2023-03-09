@@ -5,6 +5,9 @@ const routineSchema = new Schema({
   exercises: [{
       type: mongoose.Schema.Types.ObjectId,
       ref: "Exercise",
+      repeticion: Number,
+      series: Number,
+      chronometro: Number
     }],
 
   owner: {

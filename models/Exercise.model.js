@@ -1,6 +1,6 @@
-const {Schema, model} = require("mongoose")
+const mongoose = require("mongoose")
 
-const exerciseSchema = new Schema ({
+const exerciseSchema = new mongoose.Schema ({
     name: String,
     creador:{
       type: mongoose.Schema.Types.ObjectId,
@@ -22,13 +22,9 @@ const exerciseSchema = new Schema ({
     description: String,
     videoUrl: String, //no estoy seguro
   
-    repeticion: Number,
-    series: Number,
-    chronometer: Number
-  
   });
 
-  const Exercise = model("Exercise", exerciseSchema)
+  const Exercise = mongoose.model("Exercise", exerciseSchema)
 
   module.exports = Exercise;
   
