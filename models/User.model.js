@@ -10,7 +10,7 @@ const userSchema = new Schema({
       lowercase: true,
       trim: true
     },
-    role:{
+  role:{
       type:String,
       enum:["admin", "user"],
       default:"user"
@@ -22,23 +22,19 @@ const userSchema = new Schema({
 
   name: String,
   age: Number,
-  peso: Number,
-  altura: Number,
-  imageProfil: String,
-  friends:[
-    
-      {
+  weight: Number,
+  height: Number,
+  imageProfile: String,
+  friends:[{
         type: mongoose.Schema.Types.ObjectId,
         ref:"User"
-      } 
-
-    ]
+      }]
 },
 {
-    timestamps: true
+  timestamps: true
  })
 
 
 const User = model("User", userSchema)
 
-module.exports( User)
+module.exports =  User;
