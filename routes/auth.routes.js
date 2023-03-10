@@ -9,7 +9,7 @@ const jwt = require("jsonwebtoken")
 router.post("/signup", async (req, res, next) => {
 
     const { email, password } = req.body
-
+    console.log(req.body)
     //1.Validaciones de backend
 
     // - Validar que los campos no esten vacios
@@ -20,6 +20,13 @@ router.post("/signup", async (req, res, next) => {
     //-Validar
 
     try {
+
+        const foundUserEmail = await User.findOne({email : email})
+
+        if(foundUserEmail !== null){
+            res.status(400).json({errorMessage: "This email has already been used"})
+            return
+        }
 
         const salt = await bcrypt.genSalt(10)
         const hashPassword = await bcrypt.hash(password, salt)
@@ -89,6 +96,8 @@ router.post("/login", async (req, res, next) => {
 // GET "/auth/verify" => verificar si el usuario esta activo
 
 router.get("/verify", (req, res, next) => {
+
+
 
 });
 
