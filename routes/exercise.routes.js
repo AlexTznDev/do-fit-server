@@ -7,7 +7,7 @@ router.get("/",async (req, res, next) => {
 
 
     try {
-        const response = await Exercise.find().select({category: 1, image:1 , tagline:1, calories:1})
+        const response = await Exercise.find().select({category: 1, image:1 , tagline:1, calories:1, name:1})
         res.json(response);
     } catch (error) {
         next(error)
