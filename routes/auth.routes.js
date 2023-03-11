@@ -3,6 +3,8 @@ const bcrypt = require("bcryptjs")
 const User = require("../models/User.model.js")
 const jwt = require("jsonwebtoken")
 
+// 5. Llamamos el MiddleWare (isAuthenticated)
+const isAuthenticated = require("../middlewares/auth.middlewares.js")
 
 //* routas de authentification
 // POST "/auth/signup" Registar en la base de datos
@@ -12,12 +14,12 @@ router.post("/signup", async (req, res, next) => {
     console.log(req.body)
     //1.Validaciones de backend
 
-    // - Validar que los campos no esten vacios
+    //Validar que los campos no esten vacios
     if(!email || !password) {
         res.status(400).json({errorMessage: "Los campos deben estar llenos"})
         return; // Para detener la funcion, detener la ruta
     }
-    //-Validar
+
 
     try {
 
@@ -37,7 +39,6 @@ router.post("/signup", async (req, res, next) => {
             password: hashPassword
         })
         res.json("Usuario creado")
-       // res.status(201).json()
     } catch (error) {
         next(error)
     }
@@ -56,35 +57,37 @@ router.post("/login", async (req, res, next) => {
 
         //Verificar que el usuario exista en la BD
     const foundUser = await User.findOne({email:email})
-    
+    console.log(foundUser)
     if(!foundUser){
         res.status(400).json({errorMessage: "Credenciales no validas"})
         return;
     }
-        //- validar si la contraseña es la correcta
+        //Validar si la contraseña es la correcta
         
     const isPasswordCorrect = await bcrypt.compare(password, foundUser.password )
     if(!isPasswordCorrect){
         res.status(400).json({errorMessage: "Credenciales no validas"})
     }
 
-    res.json("Has iniciado sesion")
-    //payload => Contenido del token que identifica al usuario
+    //res.json("Has iniciado sesion")
 
-    
-    // const payload = {
-    //     _id: foundUser._id,
-    //     email: foundUser.email
-    //     //si tuviesemos roles, podrian ir
-    // }
-    // // generamos el token
-    // const authToken = jwt.sign(payload, process.env.TOKEN_SECRET, {
-    //     algorithm:"HS256",
-    //     expiresIn:"2d" // 2 dias
-    // })
+    // 3. =>IMPLEMENTACION DEL TOKEN    
+    //3.1 payload => Contenido del token que identifica al usuario
+    const payload = {
+        _id: foundUser._id,
+        email: foundUser.email,
+        role: foundUser.role
+        //Aqui pondremos los roles mas adelante.
+    }
 
-    // res.status(200).json({authToken:authToken})
+    //3.2 generamos el token
+    const authToken = jwt.sign(payload, process.env.TOKEN_SECRET, {
+        algorithm:"HS256", // Tipo de algoritmo a utilizar (este no nos da fallos)
+        expiresIn:"1d" // duracion del token => 1 dia
+    })
 
+    res.status(200).json({authToken:authToken})
+    //console.log("looooool",authToken)  
         
     } catch (error) {
         next(error)
@@ -95,9 +98,10 @@ router.post("/login", async (req, res, next) => {
 
 // GET "/auth/verify" => verificar si el usuario esta activo
 
-router.get("/verify", (req, res, next) => {
+router.get("/verify", isAuthenticated, (req, res, next) => {
 
-
+console.log(req.payload)    
+res.status(200).json(req.payload)
 
 });
 
