@@ -5,13 +5,22 @@ const User = require("../models/User.model.js")
 
 //* routas de routina
 //GET "/" => renderizar a todas las routinas
-router.get("/", (req, res, next) => {
-  res.json("todo funciona bien");
+router.get("/", async(req, res, next) => {
+
+  try {
+    const response = await Routine.find({owner: "640b3d2ebe6a9f74ff7b3269"})
+    res.json(response);
+  } catch (error) {
+    next(error)
+  }
+
+
 });
 
 //POST "/" => crear las routinas
 router.post("/", async (req, res, next) => {
   const { name, owner, frequency, status } = req.body;
+
 
   try {
     const response = await Routine.create({
@@ -47,7 +56,7 @@ res.json(responseAll)
 
 });
 
-//PATCH "/:id" => edit las routinas por su id
+//PATCH "/:id" => agregar exercisio a las routinas por su id
 router.patch("/:id", async (req, res, next) => {
   const { id } = req.params;
   const { exercisesId, series, repeticion, chronometro } = req.body;
@@ -69,6 +78,22 @@ router.patch("/:id", async (req, res, next) => {
     next(error);
   }
 });
+
+//PATCH "/:id/:idExercisse" => delete exercise from the array of exercisse
+router.patch("/:id/:idExercise", async(req, res, next)=>{
+
+const {id, idExercise} = req.params
+
+try {
+  await Routine.findByIdAndUpdate(id, {
+    $pull: { exercises: { _id: idExercise } },
+  })
+  res.json("exercise deleted")
+} catch (error) {
+  next(error)
+}
+
+})
 
 //DELETE "/:id" => delete las routinas por su id
 router.delete("/:id", async (req, res, next) => {
