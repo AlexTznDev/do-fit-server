@@ -2,8 +2,10 @@ const router = require("express").Router();
 const { findByIdAndDelete } = require("../models/Exercise.model");
 const Exercise = require("../models/Exercise.model");
 
+const isAuthenticated = require("../middlewares/auth.middlewares.js")
+
 //GET "/exercise" => renderizar los exercissios
-router.get("/",async (req, res, next) => {
+router.get("/", isAuthenticated, async (req, res, next) => {
 
 
     try {

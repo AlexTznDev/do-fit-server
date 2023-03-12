@@ -36,7 +36,12 @@ router.post("/signup", async (req, res, next) => {
 
         await User.create({
             email: email,
-            password: hashPassword
+            password: hashPassword,
+            name: "Username",
+            age:0,
+            weight:0,
+            height:0,
+            friends:[],
         })
         res.json("Usuario creado")
     } catch (error) {
