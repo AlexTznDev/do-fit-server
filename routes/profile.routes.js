@@ -4,7 +4,7 @@ const User = require("../models/User.model.js");
 const isAuthenticated = require("../middlewares/auth.middlewares.js")
 
 
-//GET "/:id" => renderizar a detailles de el exercissio
+//GET "/" => renderizar lso detalles del perfil
 router.get("/", isAuthenticated, async (req, res, next) => {
   const { _id } = req.payload
     //res.json(req.payload)
@@ -19,7 +19,7 @@ router.get("/", isAuthenticated, async (req, res, next) => {
   }
 });
 
-//PATCH "/:id" => edit el exercissio por su id
+//PATCH "/:id" => edit del perfil
 router.patch("/:id", async (req, res, next) => {
   const { id } = req.params;
   const { name, profileImage, age, weight, height } = req.body;
@@ -38,6 +38,21 @@ router.patch("/:id", async (req, res, next) => {
   }
 });
 
+// GET "/:id" => detalles del perfil de otro usuario
+
+router.get("/:id", async (req, res, next) => {
+  const { id } = req.params
+    //res.json(req.payload)
+    
+    
+  try {
+    const response = await User.findById(id);
+
+    res.json(response);
+  } catch (error) {
+    next(error);
+  }
+});
 
 
 module.exports = router;
