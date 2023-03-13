@@ -79,6 +79,27 @@ router.patch("/:id", async (req, res, next) => {
   }
 });
 
+
+//GET "/:idRoutine/:idExerciseInArray" => render all information of an exercise form the routine
+router.get("/:idRoutine/:idExerciseInArray", async(req, res, next)=>{
+const {idRoutine, idExerciseInArray} = req.params
+console.log(idRoutine, idExerciseInArray)
+
+try {
+
+const response = await Routine.findOne({ _id: idRoutine, "exercises._id": idExerciseInArray })  
+.select("exercises.$")
+.populate("exercises.exercisesId")
+
+
+  res.json(response)
+} catch (error) {
+  next(error)
+}
+})
+
+
+
 //PATCH "/:id/:idExercisse" => delete exercise from the array of exercisse
 router.patch("/:id/:idExercise", async(req, res, next)=>{
 
@@ -94,6 +115,10 @@ try {
 }
 
 })
+
+
+
+
 
 //DELETE "/:id" => delete las routinas por su id
 router.delete("/:id", async (req, res, next) => {
