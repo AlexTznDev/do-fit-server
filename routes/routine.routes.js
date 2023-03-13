@@ -56,6 +56,35 @@ res.json(responseAll)
 
 });
 
+
+
+//PATCH "/:idRoutine/:idExerciseInArray/edit" => edit propridad of series repeticion y chronometro
+router.patch("/:idRoutine/:idExerciseInArray/edit", async(req, res, next)=>{
+const {idRoutine, idExerciseInArray} = req.params
+const {newRepeticion, newSeries, newChronometro} = req.body
+
+try {
+  await Routine.findOneAndUpdate(
+    { _id: idRoutine, "exercises._id": idExerciseInArray },
+    {
+      $set: {
+        "exercises.$.series": newSeries,
+        "exercises.$.repeticion": newRepeticion,
+        "exercises.$.chronometro": newChronometro,
+      },
+    },
+    { new: true }
+  )
+
+  res.json("exercise update")
+} catch (error) {
+  next(error)
+}
+
+})
+
+
+
 //PATCH "/:id" => agregar exercisio a las routinas por su id
 router.patch("/:id", async (req, res, next) => {
   const { id } = req.params;
@@ -101,13 +130,13 @@ const response = await Routine.findOne({ _id: idRoutine, "exercises._id": idExer
 
 
 //PATCH "/:id/:idExercisse" => delete exercise from the array of exercisse
-router.patch("/:id/:idExercise", async(req, res, next)=>{
+router.patch("/:id/:idExerciseInArray", async(req, res, next)=>{
 
-const {id, idExercise} = req.params
+const {id, idExerciseInArray} = req.params
 
 try {
   await Routine.findByIdAndUpdate(id, {
-    $pull: { exercises: { _id: idExercise } },
+    $pull: { exercises: { _id: idExerciseInArray } },
   })
   res.json("exercise deleted")
 } catch (error) {
