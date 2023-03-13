@@ -22,14 +22,16 @@ router.get("/", isAuthenticated, async(req, res, next) => {
 });
 
 //POST "/" => crear las routinas
-router.post("/", async (req, res, next) => {
-  const { name, owner, frequency, status } = req.body;
+router.post("/", isAuthenticated, async (req, res, next) => {
 
+
+  const { name, frequency, status } = req.body;
+  const {_id}= req.payload
 
   try {
     const response = await Routine.create({
       name,
-      owner,
+      owner: _id,
       frequency,
       status,
       exercise: [],
