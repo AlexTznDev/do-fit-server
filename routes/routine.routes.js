@@ -8,7 +8,7 @@ const User = require("../models/User.model.js")
 router.get("/", async(req, res, next) => {
 
   try {
-    const response = await Routine.find({owner: "640b3d2ebe6a9f74ff7b3269"})
+    const response = await Routine.find({owner: "640e049af65e52708027ef67"})
     res.json(response);
   } catch (error) {
     next(error)
