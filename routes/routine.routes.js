@@ -151,10 +151,6 @@ try {
 
 })
 
-
-
-
-
 //DELETE "/:id" => delete las routinas por su id
 router.delete("/:id", async (req, res, next) => {
   const { id } = req.params;
@@ -167,5 +163,8 @@ router.delete("/:id", async (req, res, next) => {
     next(error)
   }
 });
+
+
+
 
 module.exports = router;

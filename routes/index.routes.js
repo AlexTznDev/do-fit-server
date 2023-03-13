@@ -19,4 +19,7 @@ router.use("/profile", profileRoutes)
 const searchRoutes = require("./search.routes.js")
 router.use("/search", searchRoutes)
 
+const profileUserRoutes = require("./profileUser.routes.js")
+router.use("/userInformation", profileUserRoutes )
+
 module.exports = router;
