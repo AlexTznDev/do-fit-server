@@ -3,12 +3,16 @@ const { findByIdAndDelete, findById } = require("../models/Exercise.model.js");
 const Routine = require("../models/Routine.model.js");
 const User = require("../models/User.model.js")
 
+const isAuthenticated = require("../middlewares/auth.middlewares.js")
+
 //* routas de routina
 //GET "/" => renderizar a todas las routinas
-router.get("/", async(req, res, next) => {
+router.get("/", isAuthenticated, async(req, res, next) => {
+
+  const {_id} = req.payload
 
   try {
-    const response = await Routine.find({owner: "640e049af65e52708027ef67"})
+    const response = await Routine.find({owner: _id})
     res.json(response);
   } catch (error) {
     next(error)
