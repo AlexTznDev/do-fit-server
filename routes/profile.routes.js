@@ -11,8 +11,8 @@ router.get("/", isAuthenticated, async (req, res, next) => {
     
     
   try {
-    const response = await User.findById(_id);
-
+    const response = await User.findById(_id).populate("friends", "name")
+   
     res.json(response);
   } catch (error) {
     next(error);
@@ -22,12 +22,12 @@ router.get("/", isAuthenticated, async (req, res, next) => {
 //PATCH "/:id" => edit del perfil
 router.patch("/:id", async (req, res, next) => {
   const { id } = req.params;
-  const { name, profileImage, age, weight, height } = req.body;
+  const { name, imageProfile, age, weight, height } = req.body;
 
   try {
     await User.findByIdAndUpdate(id, {
       name,
-      profileImage,
+      imageProfile,
       age,
       weight,
       height
