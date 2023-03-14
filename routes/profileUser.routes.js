@@ -8,8 +8,13 @@ router.get("/:idUserRoutine", async(req, res, next) => {
 
     const {idUserRoutine} = req.params
     try {
-      const response = await Routine.find({owner: idUserRoutine}).populate("friends", "name")
-      res.json(response);
+      const response1 = await Routine.find({owner: idUserRoutine})
+      const response2 = await User.findById(idUserRoutine).populate("friends", "name")
+      const response = {
+        response1, response2
+      }
+      res.json(response)
+      console.log(response)
     } catch (error) {
       next(error)
     }
