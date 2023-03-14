@@ -23,6 +23,7 @@ router.get("/", isAuthenticated, async (req, res, next) => {
 router.patch("/:id", async (req, res, next) => {
   const { id } = req.params;
   const { name, profileImage, age, weight, height } = req.body;
+  console.log(req.body)
 
   try {
     await User.findByIdAndUpdate(id, {
