@@ -24,6 +24,7 @@ router.patch("/:id", async (req, res, next) => {
   const { id } = req.params;
   const { name, imageProfile, age, weight, height } = req.body;
 
+
   try {
     await User.findByIdAndUpdate(id, {
       name,

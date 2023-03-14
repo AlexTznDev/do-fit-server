@@ -22,4 +22,8 @@ router.use("/search", searchRoutes)
 const profileUserRoutes = require("./profileUser.routes.js")
 router.use("/userInformation", profileUserRoutes )
 
+
+const uploadRoutes = require("./upload.routes");
+router.use("/upload", uploadRoutes);
+
 module.exports = router;

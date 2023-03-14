@@ -1,5 +1,4 @@
 const router = require("express").Router();
-const { findByIdAndDelete, findById } = require("../models/Exercise.model.js");
 const Routine = require("../models/Routine.model.js");
 const User = require("../models/User.model.js")
 
