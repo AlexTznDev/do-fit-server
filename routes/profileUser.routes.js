@@ -4,14 +4,14 @@ const isAuthenticated = require("../middlewares/auth.middlewares.js");
 const User = require("../models/User.model");
 
 //GET => "/:id" => renderizar Routinas de un usuario en especifico
-router.get("/:idUserRoutine", async(req, res, next) => {
+router.get("/:idUserRoutine", isAuthenticated, async(req, res, next) => {
 
     const {idUserRoutine} = req.params
     try {
-      const response1 = await Routine.find({owner: idUserRoutine})
-      const response2 = await User.findById(idUserRoutine).populate("friends", "name")
+      const rutinasFoundUser = await Routine.find({owner: idUserRoutine})
+      const infoFoundUser = await User.findById(idUserRoutine).populate("friends", "name")
       const response = {
-        response1, response2
+        rutinasFoundUser, infoFoundUser
       }
       res.json(response)
       console.log(response)
