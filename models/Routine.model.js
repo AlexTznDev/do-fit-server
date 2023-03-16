@@ -18,6 +18,18 @@ const routineSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
+  category: {
+    type: String, // opcion possible: abdominal, calentamiento, legs, pecho, braso , estiramiento, excersisio de respiration, espalda
+    enum: [
+      "Abbs",
+      "Upper body",
+      "Lower body",
+      "Stretching",
+      "Breathings",
+      "Cardio",
+      "body weight",
+    ],
+  },
 
   frequency: String,
   status: {

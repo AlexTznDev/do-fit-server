@@ -2,35 +2,39 @@ const router = require("express").Router();
 const { findByIdAndDelete } = require("../models/Exercise.model");
 const Exercise = require("../models/Exercise.model");
 
-const isAuthenticated = require("../middlewares/auth.middlewares.js")
+const isAuthenticated = require("../middlewares/auth.middlewares.js");
 
 //GET "/exercise" => renderizar los exercissios
 router.get("/", isAuthenticated, async (req, res, next) => {
-
-
-    try {
-        const response = await Exercise.find().select({category: 1, image:1 , tagline:1, calories:1, name:1})
-        res.json(response);
-    } catch (error) {
-        next(error)
-    }
-
+  try {
+    const response = await Exercise.find().select({
+      category: 1,
+      image: 1,
+      tagline: 1,
+      calories: 1,
+      name: 1,
+    });
+    res.json(response);
+  } catch (error) {
+    next(error);
+  }
 });
 
 //POST "/exercise" => crear exercissio
-router.post("/", async (req, res, next) => {
-  const { name, creador, category, calories, description, videoUrl, tagline, image } = req.body;
-
+router.post("/", isAuthenticated, async (req, res, next) => {
+  const { name, category, calories, description, videoUrl, tagline, image } =
+    req.body;
+  const { _id } = req.payload;
   try {
     await Exercise.create({
       name,
-      creador,
+      creador: _id,
       category,
       calories,
       description,
       videoUrl,
       tagline,
-      image
+      image,
     });
   } catch (error) {
     next(error);
@@ -54,7 +58,8 @@ router.get("/:id", async (req, res, next) => {
 //PATCH "/:id" => edit el exercissio por su id
 router.patch("/:id", async (req, res, next) => {
   const { id } = req.params;
-  const { name, category, calories, description, videoUrl, tagline, image } = req.body;
+  const { name, category, calories, description, videoUrl, tagline, image } =
+    req.body;
 
   try {
     await Exercise.findByIdAndUpdate(id, {
@@ -64,7 +69,7 @@ router.patch("/:id", async (req, res, next) => {
       description,
       videoUrl,
       tagline,
-      image
+      image,
     });
     res.json("the edit it's OK");
   } catch (error) {

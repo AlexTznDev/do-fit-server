@@ -24,7 +24,7 @@ router.get("/", isAuthenticated, async(req, res, next) => {
 router.post("/", isAuthenticated, async (req, res, next) => {
 
 
-  const { name, frequency, status } = req.body;
+  const { name, frequency, status, category } = req.body;
   const {_id}= req.payload
 
   try {
@@ -33,6 +33,7 @@ router.post("/", isAuthenticated, async (req, res, next) => {
       owner: _id,
       frequency,
       status,
+      category,
       exercise: [],
     });
 
