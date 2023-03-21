@@ -2,17 +2,18 @@ const mongoose = require("mongoose");
 
 const routineSchema = new mongoose.Schema({
   name: String,
-  
-  exercises: [{
-    exercisesId :{
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Exercise"
-    },
+
+  exercises: [
+    {
+      exercisesId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Exercise",
+      },
       repeticion: Number,
       series: Number,
       chronometro: Number,
-    }],
-
+    },
+  ],
 
   owner: {
     type: mongoose.Schema.Types.ObjectId,
@@ -32,6 +33,10 @@ const routineSchema = new mongoose.Schema({
   },
 
   frequency: String,
+  ownerCloned: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
   status: {
     type: String,
     enum: ["public", "private"],

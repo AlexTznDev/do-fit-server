@@ -14,7 +14,7 @@ router.get("/:idUserRoutine", isAuthenticated, async(req, res, next) => {
         rutinasFoundUser, infoFoundUser
       }
       res.json(response)
-      console.log(response)
+      
     } catch (error) {
       next(error)
     }
@@ -24,7 +24,7 @@ router.get("/:idUserRoutine", isAuthenticated, async(req, res, next) => {
       const {idUser} = req.params
       const {_id} = req.payload
       res.json(idUser)
-      console.log(_id)
+      
       
       try {
         await User.findByIdAndUpdate(_id, {

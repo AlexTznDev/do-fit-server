@@ -118,7 +118,7 @@ router.patch("/:id", async (req, res, next) => {
 //GET "/:idRoutine/:idExerciseInArray" => render all information of an exercise form the routine
 router.get("/:idRoutine/:idExerciseInArray", async(req, res, next)=>{
 const {idRoutine, idExerciseInArray} = req.params
-console.log(idRoutine, idExerciseInArray)
+
 
 try {
 
@@ -164,6 +164,33 @@ router.delete("/:id", async (req, res, next) => {
   }
 });
 
+
+
+
+//POST "/clone" => CLONE a routine from other id
+router.post("/clone",isAuthenticated, async (req, res, next)=>{
+
+  const {_id} = req.payload
+  const {name, exercise , frequency, status, category,ownerCloned } = req.body
+
+try {
+  await Routine.create({
+    name,
+    frequency,
+    status,
+    category,
+    owner: _id,
+    ownerCloned:ownerCloned,
+    exercises:exercise
+  })
+  res.json("the routine has been clone")
+} catch (error) {
+  next(error)
+}
+
+
+
+})
 
 
 
